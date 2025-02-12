@@ -36,6 +36,14 @@ public class GameView extends JFrame {
 
         ArrayList<Card> cards = backend.getMiddleCards();
 
+        if (backend.getState() == 4) {
+            ArrayList<Player> playersCopy = backend.getPlayersCopy();
+            for (Player player : playersCopy) {
+                player.setCardsVisibility(true);
+                player.drawCards(g);
+            }
+        }
+
         if (cards != null) {
             for (int i = 0; i < cards.size(); i++) {
                 cards.get(i).draw(g, 250 + (100 * i), 250, this);

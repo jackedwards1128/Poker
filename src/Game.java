@@ -5,6 +5,8 @@ public class Game {
 
     private GameView window;
 
+    private int state = 0;
+
     private int playerCount;
     private Deck pile;
     private int bet;
@@ -215,8 +217,9 @@ public class Game {
             playersCopy.get(i).determineRank(middleCards);
             System.out.println("They got a " + ranks[playersCopy.get(i).getRank()]);
             System.out.println("They bet $" + playersCopy.get(i).getBet());
-
         }
+        state = 4;
+        window.repaint();
     }
 
     // Print the instructions of poker
@@ -252,6 +255,14 @@ public class Game {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public ArrayList<Player> getPlayersCopy() {
+        return playersCopy;
     }
 
     public static void main(String[] args) {
