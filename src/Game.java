@@ -10,6 +10,7 @@ public class Game {
     private int playerCount;
     private Deck pile;
     private int bet;
+    private int pot;
     private ArrayList<Card> middleCards;
     private ArrayList<Player> players;
     private ArrayList<Player> playersCopy;
@@ -174,6 +175,7 @@ public class Game {
                     break;
                 case 'c':
                     // Set bet of player to overall bet
+                    pot += bet - players.get(i).getBet();
                     players.get(i).setBet(bet);
                     System.out.println(players.get(i).getName() + " matched to a bet of $" + bet);
                     players.get(i).setCardsVisibility(false);
@@ -191,6 +193,7 @@ public class Game {
 
                     // Set the overall bet to the raised value
                     bet = newBet;
+                    pot += bet - players.get(i).getBet();
                     players.get(i).setBet(bet);
                     System.out.println(players.get(i).getName() + " raise the a bet to $" + bet);
                     players.get(i).setCardsVisibility(false);
@@ -259,6 +262,10 @@ public class Game {
 
     public int getState() {
         return state;
+    }
+
+    public int getPot() {
+        return pot;
     }
 
     public ArrayList<Player> getPlayersCopy() {

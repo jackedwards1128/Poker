@@ -201,11 +201,11 @@ public class Player {
     public void drawCards(Graphics g) {
         if (order < 3) {
             for (int i = 0; i < hand.size(); i++) {
-                hand.get(i).draw(g, 100 + (60*i) + (315 * order), 450, window);
+                hand.get(i).draw(g, 100 + (60*i) + (420 * order), 570, window);
             }
         } else {
             for (int i = 0; i < hand.size(); i++) {
-                hand.get(i).draw(g, 100 + (60*i) + (315 * (order-3)), 60, window);
+                hand.get(i).draw(g, 100 + (60*i) + (420 * (order-3)), 60, window);
             }
         }
 
