@@ -104,9 +104,15 @@ public class Player {
         boolean straight = false;
         boolean flush = false;
 
-        for (Card Card : givenHand) {
-            frequency[Card.getValue()]++;
+        int highCard = -1;
+
+        for (Card card : givenHand) {
+            frequency[card.getValue()]++;
+            if (card.getValue() > highCard) {
+                highCard = card.getValue();
+            }
         }
+
 
 
         // Determine presence of straight
@@ -146,19 +152,19 @@ public class Player {
                 }
             }
             if (royal) {
-                return 9;
+                return (100*9)+highCard;
             } else {
-                return 8;
+                return (100*8)+highCard;
             }
         }
 
         // Flush and straight. These return statements must be done after the royal and straight flush to make
         // sure the best rank possible is submitted first
         if (flush) {
-            return 5;
+            return (100*5)+highCard;
         }
         if (straight) {
-            return 4;
+            return (100*4)+highCard;
         }
 
         // QUADS, TRIPS, DUBS, 2DUBS, FULL HOUSE
@@ -167,7 +173,7 @@ public class Player {
         for (int freq : frequency) {
             switch (freq){
                 case 4:
-                    return 7;
+                    return (100*7)+highCard;
                 case 3:
                     trips++;
                     break;
@@ -176,19 +182,19 @@ public class Player {
             }
         }
         if (trips == 1 && pairs == 1) {
-            return 6;
+            return (100*6)+highCard;
         }
         else if (trips == 1) {
-            return 3;
+            return (100*3)+highCard;
         }
         else if (pairs == 2) {
-            return 2;
+            return (100*2)+highCard;
         }
         else if (pairs == 1) {
-            return 1;
+            return (100*0)+highCard;
         }
 
-        return 0;
+        return 100 + highCard;
 
     }
 

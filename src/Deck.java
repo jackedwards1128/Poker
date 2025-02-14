@@ -17,7 +17,11 @@ public class Deck {
         for(int i = 0; i <= 12; i++) {
             for (int j = 0; j < 4; j++) {
                 int CardNum = (i*4) + (j + 1);
-                deck.add(new Card(ranks[i], suits[j], i, "" + CardNum, window));
+                if (i == 0) {
+                    deck.add(new Card(ranks[i], suits[j], 13, "" + CardNum, window));
+                } else {
+                    deck.add(new Card(ranks[i], suits[j], i, "" + CardNum, window));
+                }
             }
         }
     }

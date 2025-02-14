@@ -14,10 +14,13 @@ public class Game {
     private ArrayList<Card> middleCards;
     private ArrayList<Player> players;
     private ArrayList<Player> playersCopy;
-    private final String[] ranks = new String[] {"High Card", "Pair", "Two Pair", "Three of a Kind",
+    public final String[] ranks = new String[] {"High Card", "Pair", "Two Pair", "Three of a Kind",
             "Straight", "Flush", "Full House", "Quads", "Straight Flush", "Royal Flush"};
 
     public Game() {
+
+        state = 1;
+
         // Begin game by creating arraylist of players and the deck
         players = new ArrayList<Player>();
         playersCopy = new ArrayList<Player>();
@@ -63,15 +66,15 @@ public class Game {
             players.get(i).createHand(pocket);
             playersCopy.add(players.get(i));
         }
-
+        state = 0;
         window.repaint();
 
         // Display hands to players privately
-        showHands();
         for(Player player : players) {
             player.setCardsVisibility(false);
         }
         window.repaint();
+        showHands();
         gatherBets(0);
 
         // Flop
@@ -95,11 +98,17 @@ public class Game {
     // Privately show pockets to all players
     private void showHands() {
         for (int i = 0; i < playerCount; i++) {
+            state = 3;
+            window.repaint();
             Scanner input = new Scanner(System.in);
 
             // Warn player
             System.out.println(players.get(i).getName() + ", click enter once you are ready to see your hand");
             input.nextLine();
+
+            players.get(i).setCardsVisibility(true);
+            state = 0;
+            window.repaint();
 
             System.out.print(players.get(i).getName() + " has a ");
             System.out.println(players.get(i).getHandString());
@@ -109,6 +118,8 @@ public class Game {
             input.nextLine();
             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
             System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+            players.get(i).setCardsVisibility(false);
+            window.repaint();
         }
     }
 
@@ -218,9 +229,19 @@ public class Game {
             System.out.print(playersCopy.get(i).getName() + " had a ");
             System.out.println(playersCopy.get(i).getHandString());
             playersCopy.get(i).determineRank(middleCards);
-            System.out.println("They got a " + ranks[playersCopy.get(i).getRank()]);
+            System.out.println("They got a " + ranks[playersCopy.get(i).getRank() / 100]);
             System.out.println("They bet $" + playersCopy.get(i).getBet());
+
+
         }
+
+        int bestPlayer = 0;
+        for (int i = 1; i < players.size(); i++) {
+            if (players.get(i).getRank() > players.get(bestPlayer).getRank()) {
+                bestPlayer = i;
+            }
+        }
+        window.setWinner(players.get(bestPlayer));
         state = 4;
         window.repaint();
     }
@@ -266,6 +287,10 @@ public class Game {
 
     public int getPot() {
         return pot;
+    }
+
+    public int getBet() {
+        return bet;
     }
 
     public ArrayList<Player> getPlayersCopy() {
