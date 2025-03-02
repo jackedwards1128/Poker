@@ -107,7 +107,7 @@ public class Player {
         int highCard = -1;
 
         for (Card card : givenHand) {
-            frequency[card.getValue()]++;
+            frequency[card.getValue() % 13]++;
             if (card.getValue() > highCard) {
                 highCard = card.getValue();
             }

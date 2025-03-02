@@ -98,6 +98,7 @@ public class Game {
     // Privately show pockets to all players
     private void showHands() {
         for (int i = 0; i < playerCount; i++) {
+            window.setNextPlayer(players.get(i).getName());
             state = 3;
             window.repaint();
             Scanner input = new Scanner(System.in);
@@ -121,6 +122,19 @@ public class Game {
             players.get(i).setCardsVisibility(false);
             window.repaint();
         }
+
+        window.setNextPlayer(players.get(0).getName());
+        state = 3;
+        window.repaint();
+        Scanner input = new Scanner(System.in);
+
+        // Warn player
+        System.out.println("click enter once you are ready to start betting");
+        input.nextLine();
+
+        players.get(0).setCardsVisibility(true);
+        state = 0;
+        window.repaint();
     }
 
     // Run flop by revealing the middle three cards and displaying them
@@ -188,6 +202,7 @@ public class Game {
                     // Set bet of player to overall bet
                     pot += bet - players.get(i).getBet();
                     players.get(i).setBet(bet);
+                    playersCopy.get(i).setBet(bet);
                     System.out.println(players.get(i).getName() + " matched to a bet of $" + bet);
                     players.get(i).setCardsVisibility(false);
                     window.repaint();
@@ -206,12 +221,20 @@ public class Game {
                     bet = newBet;
                     pot += bet - players.get(i).getBet();
                     players.get(i).setBet(bet);
+                    playersCopy.get(i).setBet(bet);
                     System.out.println(players.get(i).getName() + " raise the a bet to $" + bet);
                     players.get(i).setCardsVisibility(false);
                     window.repaint();
                     break;
             }
 
+            System.out.println("press enter to move on");
+            state = 2;
+            window.repaint();
+            Scanner input = new Scanner(System.in);
+            input.nextLine();
+            state = 0;
+            window.repaint();
         }
         // Make sure all players have an even bet. If not, recursively recall the function
 
@@ -231,7 +254,7 @@ public class Game {
             playersCopy.get(i).determineRank(middleCards);
             System.out.println("They got a " + ranks[playersCopy.get(i).getRank() / 100]);
             System.out.println("They bet $" + playersCopy.get(i).getBet());
-
+            System.out.println(playersCopy.get(i).getRank());
 
         }
 

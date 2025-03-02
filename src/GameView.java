@@ -16,6 +16,8 @@ public class GameView extends JFrame {
 
     private Player winner;
 
+    private String nextPlayer = "";
+
     public GameView(Game backend) {
         this.backend = backend;
         this.players = backend.getPlayers();
@@ -38,13 +40,21 @@ public class GameView extends JFrame {
         }
 
         switch (backend.getState()) {
+            case 2:
+                g.setColor(Color.black);
+                g.fillRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT);
+                g.setColor(Color.white);
+                g.setFont(LargeFont);
+                g.drawString("Press Enter to show the ", 190, 350);
+                g.drawString("next player their cards", 200, 450);
+                break;
             case 3:
                 g.setColor(Color.black);
                 g.fillRect(0,0,WINDOW_WIDTH, WINDOW_HEIGHT);
                 g.setColor(Color.white);
                 g.setFont(LargeFont);
-                g.drawString("Press Enter to show the next", 190, 350);
-                g.drawString("player their cards", 365, 450);
+                g.drawString("Press Enter to show " + nextPlayer, 190, 350);
+                g.drawString(" their cards", 365, 450);
                 break;
             case 4:
                 ArrayList<Player> playersCopy = backend.getPlayersCopy();
@@ -53,16 +63,23 @@ public class GameView extends JFrame {
                     player.drawCards(g);
                 }
                 printRevealText(g);
+                drawMiddleCards(g);
                 printBets(g);
                 break;
             case 1:
+                drawMiddleCards(g);
                 break;
             case 0:
                 printText(g);
                 printBets(g);
+                drawMiddleCards(g);
                 break;
         }
 
+
+    }
+
+    public void drawMiddleCards(Graphics g) {
         ArrayList<Card> cards = backend.getMiddleCards();
 
         if (cards != null) {
@@ -93,15 +110,21 @@ public class GameView extends JFrame {
         g.setColor(Color.white);
         g.setFont(smallFont);
 
-        for (int i = 0; i < players.size(); i++) {
+        ArrayList<Player> playersCopy = backend.getPlayersCopy();
+
+        for (int i = 0; i < playersCopy.size(); i++) {
             if (i < 3) {
-                g.drawString("$" + players.get(i).getBet(), 150 + (420 * i), 560);
+                g.drawString("$" + playersCopy.get(i).getBet(), 150 + (420 * i), 560);
             } else {
-                g.drawString("$" + players.get(i).getBet(), 150 + (420 * (i-3)), 220);
+                g.drawString("$" + playersCopy.get(i).getBet(), 150 + (420 * (i-3)), 220);
             }
         }
 
 
+    }
+
+    public void setNextPlayer(String nextPlayer) {
+        this.nextPlayer = nextPlayer;
     }
 
     public void setWinner(Player winner) {

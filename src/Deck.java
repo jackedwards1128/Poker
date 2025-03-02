@@ -18,6 +18,7 @@ public class Deck {
             for (int j = 0; j < 4; j++) {
                 int CardNum = (i*4) + (j + 1);
                 if (i == 0) {
+                    // Aces have a ranking higher than the other cards so set the value = 13
                     deck.add(new Card(ranks[i], suits[j], 13, "" + CardNum, window));
                 } else {
                     deck.add(new Card(ranks[i], suits[j], i, "" + CardNum, window));
