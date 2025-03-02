@@ -62,8 +62,8 @@ public class Player {
                 supposedHand.addAll(fullHand);
 
                 // Set the cards to skip as dud-cards with a value of -1
-                supposedHand.set(skipOne, new Card("Ace", "Spades", -1, "back", window));
-                supposedHand.set(skipTwo, new Card("Ace", "Spades", -1, "back", window));
+                supposedHand.set(skipOne, new Card("Ace", "Spades", -1, -1, window));
+                supposedHand.set(skipTwo, new Card("Ace", "Spades", -1, -1, window));
 
                 // Remove these dud cards. These processes are done seperately to avoid the complexity
                 // of the size of the array changing after the skip card is remove
@@ -99,15 +99,24 @@ public class Player {
         // 1 pair
         // 0 high
 
+        // The rank is multiplied by 100 and the highcard value is added to this number, so for example
+        // a straight with an 8 [(4*100) + 8] will win over a straight with a 6 [(4*100) + 6]
+
         // Determine the frequency at which each number/face card appears
-        int[] frequency = new int[13];
+        int[] frequency = new int[14];
         boolean straight = false;
         boolean flush = false;
 
+        // Find the high-card and save it so it can be added to the rank
         int highCard = -1;
 
         for (Card card : givenHand) {
-            frequency[card.getValue() % 13]++;
+            if (card.getValue() == 13) {
+                frequency[0]++;
+                frequency[13]++;
+            } else {
+                frequency[card.getValue()]++;
+            }
             if (card.getValue() > highCard) {
                 highCard = card.getValue();
             }
@@ -198,13 +207,16 @@ public class Player {
 
     }
 
+    // Sets whether a player's hand is currently visible or hidden on the GUI
     public void setCardsVisibility(boolean visible) {
         for (int i = 0; i < hand.size(); i++) {
             hand.get(i).setShown(visible);
         }
     }
 
+    // Instructs each card in the player's hand to draw itself
     public void drawCards(Graphics g) {
+        // Switches between top and bottom drawing
         if (order < 3) {
             for (int i = 0; i < hand.size(); i++) {
                 hand.get(i).draw(g, 100 + (60*i) + (420 * order), 570, window);

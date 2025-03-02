@@ -1,3 +1,12 @@
+/* //////////////////////////////////////////
+        Written by Jack Edwards
+        5-Card Texas Hold'em Poker
+
+        Done for CS2 at Menlo School
+        Taught by Ms. Namasivayam
+        February 2025
+ */ /////////////////////////////////////////
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -178,6 +187,7 @@ public class Game {
             }
             char choice = '0';
 
+            // Show the given player's cards
             players.get(i).setCardsVisibility(true);
             window.repaint();
 
@@ -202,8 +212,13 @@ public class Game {
                     // Set bet of player to overall bet
                     pot += bet - players.get(i).getBet();
                     players.get(i).setBet(bet);
+
+                    // Set the bet on player's copy as well so that the bet can still be displayed in the future
+                    // even if the player folds
                     playersCopy.get(i).setBet(bet);
                     System.out.println(players.get(i).getName() + " matched to a bet of $" + bet);
+
+                    // Hide the given player's cards
                     players.get(i).setCardsVisibility(false);
                     window.repaint();
                     break;
@@ -221,13 +236,19 @@ public class Game {
                     bet = newBet;
                     pot += bet - players.get(i).getBet();
                     players.get(i).setBet(bet);
+
+                    // Set the bet on player's copy as well so that the bet can still be displayed in the future
+                    // even if the player folds
                     playersCopy.get(i).setBet(bet);
                     System.out.println(players.get(i).getName() + " raise the a bet to $" + bet);
+
+                    // Hide the given player's cards
                     players.get(i).setCardsVisibility(false);
                     window.repaint();
                     break;
             }
 
+            // Creates black in-between screen so players adjacent in order don't see eachother's cards
             System.out.println("press enter to move on");
             state = 2;
             window.repaint();
@@ -264,6 +285,8 @@ public class Game {
                 bestPlayer = i;
             }
         }
+
+        // Send the winner to the frontend to be displayed
         window.setWinner(players.get(bestPlayer));
         state = 4;
         window.repaint();
@@ -279,7 +302,7 @@ public class Game {
         System.out.println(", then 1 more again, for a total of 5 cards. Each time new cards are revealed, you will each" +
                 " bet on your hands again. Your goal is to");
         System.out.println("make the best possible 5-card hand from the 5 cards" +
-                " in the middle, and the 2 cards you have in your hand. Aces are always valued as 1.");
+                " in the middle, and the 2 cards you have in your hand.");
         System.out.println("The ranks go as following:");
         System.out.println("<<Worst>>");
         System.out.println("High Card");

@@ -16,12 +16,12 @@ public class Deck {
         this.window = window;
         for(int i = 0; i <= 12; i++) {
             for (int j = 0; j < 4; j++) {
-                int CardNum = (i*4) + (j + 1);
+                int CardNum = (i*4) + (j);
                 if (i == 0) {
                     // Aces have a ranking higher than the other cards so set the value = 13
-                    deck.add(new Card(ranks[i], suits[j], 13, "" + CardNum, window));
+                    deck.add(new Card(ranks[i], suits[j], 13, CardNum, window));
                 } else {
-                    deck.add(new Card(ranks[i], suits[j], i, "" + CardNum, window));
+                    deck.add(new Card(ranks[i], suits[j], i, CardNum, window));
                 }
             }
         }

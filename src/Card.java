@@ -5,11 +5,11 @@ public class Card {
     private String rank;
     private String suit;
     private int value;
-    private String cardNum;
+    private int cardNum;
     private boolean shown;
 
     // Constructor
-    public Card(String rank, String suit, int value, String cardNum, GameView window) {
+    public Card(String rank, String suit, int value, int cardNum, GameView window) {
         this.rank = rank;
         this.suit = suit;
         this.value = value;
@@ -52,14 +52,13 @@ public class Card {
         return rank + " of " + suit;
     }
 
+    // Draws the card itself, pulling the image from the images array in the frontend
     public void draw(Graphics g, int x, int y, GameView window) {
         if (shown) {
-            Image yap = new ImageIcon("Resources/Cards/" + cardNum + ".png").getImage();
-            g.drawImage(yap, x, y, 80, 121, window);
+            g.drawImage(window.getCardImages()[cardNum], x, y, 80, 121, window);
         } else {
-            g.drawImage(window.backCard, x, y, 80, 121, window);
+            // Displays back card if being hidden
+            g.drawImage(window.getBackCard(), x, y, 80, 121, window);
         }
-
-        //
     }
 }
